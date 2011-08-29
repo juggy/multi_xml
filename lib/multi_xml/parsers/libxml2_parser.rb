@@ -32,13 +32,10 @@ module MultiXml
         # Remove content node if it is empty
         if node_hash[MultiXml::CONTENT_ROOT].strip.empty?
           node_hash.delete(MultiXml::CONTENT_ROOT)
-        else
-          #Special case, add a new node containing the attributes of the content node
-          hash["#{name}@"] = node_hash = {}
         end
 
-        # Handle attributes
-        each_attr(node) {|a| node_hash[node_name(a)] = a.value }
+        # Handle attributes node_name@attribute name on the same level
+        each_attr(node) {|a| hash["#{name}@#{node_name(a)}"] = a.value }
 
         hash
       end
